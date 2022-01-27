@@ -1,0 +1,36 @@
+<label class="ml-4 mr4">
+  name: <input [(ngModel)]="newItem.name" placeholder="name" required class="form-control">
+</label>
+<label class="ml-4 mr4">
+  amount: <input [(ngModel)]="newItem.amount" placeholder="amount" type="number" min="1" required class="form-control">
+</label>
+<label class="ml-4 mr4">
+  category: <input [(ngModel)]="newItem.category" placeholder="category" required class="form-control">
+</label>
+<button (click)="addItem()" class="btn btn-info ml-4">add item</button>
+<button class="btn btn-info" style="margin-left: 19vw;" ngbTooltip="barcode scanner" routerLink="/scanner">📷</button>
+<table class="table ml-4">
+  <tr>
+    <th scope="col">name</th>
+    <th scope="col">amount</th>
+    <th scope="col">category</th>
+    <th scope="col">actions</th>
+  </tr>
+  <tr *ngFor="let item of items">
+    <ng-container *ngIf="item._id !== editedItem">
+      <td>{{item.name}}</td>
+      <td>{{item.amount}}</td>
+      <td>{{item.category}}</td>
+      <td><button class="btn btn-primary " ngbTooltip="edit" (click)="toggleEdit(item._id)">✏</button>
+        <button class="btn btn-danger ml-2" ngbTooltip="delete" (click)="deleteItem(item)">⛔</button></td>
+    </ng-container>
+    <ng-container *ngIf="item._id === editedItem">
+      <td><input [(ngModel)]="item.name" placeholder="name" required class="form-control"></td>
+      <td><input [(ngModel)]="item.amount" placeholder="amount" type="number" min="1" required class="form-control"></td>
+      <td><input [(ngModel)]="item.category" placeholder="category" required class="form-control"></td>
+      <td><button class="btn btn-success" ngbTooltip="save changes" (click)="updateItem(item)">💾</button>
+          <!-- <button class="btn btn-primary ml-2" ngbTooltip="exit edit mode" (click)="toggleEdit('')">↩</button> -->
+      </td>
+    </ng-container>
+  </tr>
+</table>

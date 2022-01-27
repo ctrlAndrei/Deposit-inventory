@@ -1,0 +1,51 @@
+<main class="wrapper" style="padding-top:2em">
+
+    <section class="container" id="demo-content">
+      <h1 class="title">Scan barcode from Video Camera</h1>
+  
+      <div>
+        <button class="btn btn-primary mr-2 mb-2 mt-2" id="startButton" (click)="scannerEnabled = true">Start</button>
+        <button class="btn btn-primary mb-2 mt-2" id="resetButton" (click)="resetScanner()">Reset</button>
+        <button class="btn btn-info" style="margin-left: 28vw;" ngbTooltip="items list" routerLink="">📃</button>
+      </div>
+  
+      <zxing-scanner #scanner [enable]="scannerEnabled" [(device)]="desiredDevice"
+        [formats]="['CODABAR','UPC-A','UPC-E','EAN_13','EAN_8','CODE_128','CODE_93','CODE_39']"
+        (camerasFound)="camerasFoundHandler($event)" (scanSuccess)="scanSuccessHandler($event)"
+        (scanError)="scanErrorHandler($event)">
+      </zxing-scanner>
+  
+      <!-- <div>
+            <video id="video" width="600" height="400" style="border: 1px solid gray"></video>
+        </div> -->
+  
+      <div id="sourceSelectPanel" #sourceSelectPanel>
+        <label for="sourceSelect">Change video source:</label>
+        <select id="sourceSelect" style="max-width:400px" #sourceSelect>
+          <option *ngFor="let camera of cameras" value="camera">{{camera.label}}</option>
+        </select>
+      </div>
+  
+      <label>Result:</label>
+      <pre><code>{{result}}</code></pre>
+  
+    </section>
+  
+    <section class="container">
+      <div id="addSection" *ngIf="displayAddSection">
+        <p id="productName">{{productName}}</p>
+        <label>amount: <input type="number" min="1" id="amount" value="1" [(ngModel)]="amount"></label><button
+          id="addItem" (click)="addItem()" class="btn btn-primary mr-2 ml-2">add
+          item</button>
+      </div>
+    </section>
+  
+    <section class="container">
+      <div id="newBarcode" *ngIf="displayBarcodeSection">
+        <label>name: <input placeholder="name" id="name" style="margin-right: 3px" [(ngModel)]="name"></label>
+        <label>category: <input placeholder="category" id="category" [(ngModel)]="category"></label>
+        <button id="addBarcode" (click)="addBarcode()" class="btn btn-primary mr-2 ml-2">add barcode</button>
+      </div>
+    </section>
+  
+  </main>
