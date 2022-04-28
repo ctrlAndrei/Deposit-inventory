@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { map, mergeMap, switchMap } from 'rxjs/operators';
 import { Item } from '../Item';
 import { ItemsService } from '../items.service';
 
@@ -27,12 +26,13 @@ export class StorageComponent implements OnInit {
   addItem(): void {
     if (this.newItem.name && this.newItem.category) {
       this.itemsService.addItem(this.newItem)
-        .pipe(map(res => res),
-          switchMap(res => this.itemsService.getItem(this.newItem.name)),
-          map(res => { this.items.push(res); this.newItem = { _id: "", name: "", category: "", amount: 1 } })
-        )
-        // .subscribe(item => { this.items.push(this.newItem); this.newItem = { _id: "", name: "", category: "", amount: 1 } })
-        .subscribe();
+      .subscribe(res => {
+        if (res == undefined) { }
+        else {
+          this.items.push(this.newItem);
+          this.newItem = { _id: "", name: "", category: "", amount: 1 }
+        }
+      });
     }
   }
 
